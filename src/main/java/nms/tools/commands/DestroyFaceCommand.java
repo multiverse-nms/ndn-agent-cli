@@ -24,7 +24,7 @@ public class DestroyFaceCommand implements Runnable {
 
 	private JsonObject makeCommand() {
 		JsonObject json = new JsonObject();
-		json.put("action", "destroy-face");
+		json.put("action", "destroy_face");
 		JsonObject payload = new JsonObject();
 		payload.put("faceid", faceId);
 		json.put("paylaod", payload);

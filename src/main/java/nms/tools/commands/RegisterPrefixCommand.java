@@ -24,7 +24,7 @@ public class RegisterPrefixCommand implements Runnable {
 
 	private JsonObject makeCommand() {
 		JsonObject json = new JsonObject();
-		json.put("action", "register-prefix");
+		json.put("action", "register_prefix");
 		JsonObject payload = new JsonObject();
 		payload.put("prefix", prefix);
 		json.put("paylaod", payload);

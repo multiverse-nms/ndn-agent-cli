@@ -24,7 +24,7 @@ public class UnregisterPrefixCommand implements Runnable {
 
 	private JsonObject makeCommand() {
 		JsonObject json = new JsonObject();
-		json.put("action", "unregister-prefix");
+		json.put("action", "unregister_prefix");
 		JsonObject payload = new JsonObject();
 		payload.put("prefix", prefix);
 		json.put("paylaod", payload);

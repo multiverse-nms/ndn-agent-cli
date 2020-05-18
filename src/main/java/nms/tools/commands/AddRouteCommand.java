@@ -34,7 +34,7 @@ public class AddRouteCommand implements Runnable {
 
 	private JsonObject makeCommand() {
 		JsonObject json = new JsonObject();
-		json.put("action", "add-route");
+		json.put("action", "add_route");
 		JsonObject payload = new JsonObject();
 		payload.put("prefix", "/a/b/c");
 		payload.put("faceid", 1001);

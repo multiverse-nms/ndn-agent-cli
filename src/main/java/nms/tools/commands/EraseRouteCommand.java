@@ -30,7 +30,7 @@ public class EraseRouteCommand implements Runnable {
 
 	private JsonObject makeCommand() {
 		JsonObject json = new JsonObject();
-		json.put("action", "erase-route");
+		json.put("action", "erase_route");
 		JsonObject payload = new JsonObject();
 		payload.put("prefix", prefix);
 		payload.put("faceid", faceId);
