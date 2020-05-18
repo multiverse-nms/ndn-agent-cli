@@ -10,6 +10,9 @@ public class AddFaceCommand implements Runnable {
 
 	@Option(names = { "--local" }, required = false)
 	private String local;
+	
+	@Option(names = { "--port" }, required = false)
+	private String port;
 
 	@Option(names = { "--remote" }, required = false)
 	private String remote;
@@ -33,6 +36,7 @@ public class AddFaceCommand implements Runnable {
 		json.put("action", "add-face");
 		JsonObject payload = new JsonObject();
 		payload.put("local", "");
+		payload.put("port", "");
 		payload.put("remote", "");
 		payload.put("scheme", "");
 		json.put("paylaod", payload);
