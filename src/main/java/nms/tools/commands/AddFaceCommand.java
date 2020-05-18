@@ -28,12 +28,13 @@ public class AddFaceCommand implements Runnable {
 
 	@Override
 	public void run() {
-		service.sendMessage(makeCommand());
+//		service.sendMessage(makeCommand());
+		service.sendMessage(exampleCommand());
 	}
 
 	private JsonObject makeCommand() {
 		JsonObject json = new JsonObject();
-		json.put("action", "add-face");
+		json.put("action", "add_face");
 		JsonObject payload = new JsonObject();
 		payload.put("local", "");
 		payload.put("port", "");
@@ -42,5 +43,19 @@ public class AddFaceCommand implements Runnable {
 		json.put("paylaod", payload);
 		return json;
 	}
+	
+	private JsonObject exampleCommand() {
+		JsonObject json = new JsonObject();
+		json.put("action", "add_face");
+		JsonObject payload = new JsonObject();
+		payload.put("local", "02:00:00:00:00:02");
+		payload.put("port", "net_af_packet0");
+		payload.put("remote", "02:00:00:00:00:01");
+		payload.put("scheme", "ether");
+		json.put("paylaod", payload);
+		return json;
+	}
+	
+	
 
 }
