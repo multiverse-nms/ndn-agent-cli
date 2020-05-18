@@ -3,6 +3,7 @@ package nms.tools;
 import nms.tools.commands.AddFaceCommand;
 import nms.tools.commands.AddRouteCommand;
 import nms.tools.commands.DestroyFaceCommand;
+import nms.tools.commands.EraseRouteCommand;
 import nms.tools.commands.RegisterPrefixCommand;
 import nms.tools.commands.UnregisterPrefixCommand;
 import nms.tools.services.ManagementService;
@@ -18,8 +19,9 @@ public class App implements Runnable {
 
 		final CommandLine cmd = new CommandLine(new App());
 		cmd.addSubcommand("add-face", new AddFaceCommand(service));
-		cmd.addSubcommand("add-route", new AddRouteCommand(service));
 		cmd.addSubcommand("destroy-face", new DestroyFaceCommand(service));
+		cmd.addSubcommand("add-route", new AddRouteCommand(service));
+		cmd.addSubcommand("erase-route", new EraseRouteCommand(service));
 		cmd.addSubcommand("register-prefix", new RegisterPrefixCommand(service));
 		cmd.addSubcommand("unregister-prefix", new UnregisterPrefixCommand(service));
 
