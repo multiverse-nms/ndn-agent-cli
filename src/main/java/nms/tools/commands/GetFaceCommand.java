@@ -13,27 +13,27 @@ import nms.tools.services.RpcCommands;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "destroy-face", mixinStandardHelpOptions = true, sortOptions = false, description = "destroys a face on the forwarder.")
-public class DestroyFaceCommand implements Runnable {
+@Command(name = "get-face", mixinStandardHelpOptions = true, description = "retrieves face information.")
+public class GetFaceCommand implements Runnable {
 
 	private final WebSocketClient wsClient;
-
+	
 	@Option(names = { "--faceid" }, required = true)
 	private int faceId;
 
-	public DestroyFaceCommand(WebSocketClient client) {
+	public GetFaceCommand(WebSocketClient client) {
 		this.wsClient = client;
 	}
 
 	@Override
 	public void run() {
 		wsClient.connect();
-		System.out.println("attempting to destroy face with ID " + faceId + "...");
+		System.out.println("retrieving face info...");
 		wsClient.send(makeCommand().toString());
 	}
 
 	private JsonObject makeCommand() {
-		String method = RpcCommands.DESTROY_FACE.getName();
+		String method = RpcCommands.GET_FACE.getName();
 		String id = UUID.randomUUID().toString();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Id", faceId);

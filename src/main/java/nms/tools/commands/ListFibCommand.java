@@ -11,32 +11,26 @@ import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
 import io.vertx.core.json.JsonObject;
 import nms.tools.services.RpcCommands;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 
-@Command(name = "destroy-face", mixinStandardHelpOptions = true, sortOptions = false, description = "destroys a face on the forwarder.")
-public class DestroyFaceCommand implements Runnable {
-
+@Command(name = "list-fib", mixinStandardHelpOptions = true, description = "retrieves the fib.")
+public class ListFibCommand implements Runnable {
 	private final WebSocketClient wsClient;
 
-	@Option(names = { "--faceid" }, required = true)
-	private int faceId;
-
-	public DestroyFaceCommand(WebSocketClient client) {
+	public ListFibCommand(WebSocketClient client) {
 		this.wsClient = client;
 	}
 
 	@Override
 	public void run() {
 		wsClient.connect();
-		System.out.println("attempting to destroy face with ID " + faceId + "...");
+		System.out.println("retrieving FIB...");
 		wsClient.send(makeCommand().toString());
 	}
 
 	private JsonObject makeCommand() {
-		String method = RpcCommands.DESTROY_FACE.getName();
+		String method = RpcCommands.LIST_FIB.getName();
 		String id = UUID.randomUUID().toString();
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Id", faceId);
 		JSONRPC2Request reqOut = new JSONRPC2Request(method, params, id);
 		String jsonString = reqOut.toString();
 		return new JsonObject(jsonString);

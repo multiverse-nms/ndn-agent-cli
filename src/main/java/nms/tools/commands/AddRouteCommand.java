@@ -1,14 +1,22 @@
 package nms.tools.commands;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import org.java_websocket.client.WebSocketClient;
+
+import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
+
 import io.vertx.core.json.JsonObject;
-import nms.tools.services.ManagementService;
+import nms.tools.services.RpcCommands;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "AddRoute", mixinStandardHelpOptions = true, sortOptions = false)
+@Command(name = "add-route", mixinStandardHelpOptions = true, sortOptions = false, description = "adds a route on the forwarder.")
 public class AddRouteCommand implements Runnable {
 
-	private final ManagementService service;
+	private final WebSocketClient wsClient;
 
 	@Option(names = {"--prefix"}, required = true)
     private String prefix;
@@ -23,24 +31,27 @@ public class AddRouteCommand implements Runnable {
     private int origin;
 	
 	
-	public AddRouteCommand(ManagementService service) {
-		this.service = service;
+	public AddRouteCommand(WebSocketClient client) {
+		this.wsClient = client;
 	}
 
 	@Override
 	public void run() {
-		service.sendMessage(makeCommand());
+		wsClient.connect();
+		System.out.println("adding route...");
+		wsClient.send(makeCommand().toString());
 	}
 
 	private JsonObject makeCommand() {
-		JsonObject json = new JsonObject();
-		json.put("action", "add_route");
-		JsonObject payload = new JsonObject();
-		payload.put("prefix", "/a/b/c");
-		payload.put("faceid", 1001);
-		payload.put("cost", 10);
-		payload.put("origin", 0);
-		json.put("paylaod", payload);
-		return json;
+		String method = RpcCommands.ADD_ROUTE.getName();
+		String id = UUID.randomUUID().toString();
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("Prefix", prefix);
+		params.put("FaceId", faceId);
+		params.put("Cost", cost);
+		params.put("Origin", origin);
+		JSONRPC2Request reqOut = new JSONRPC2Request(method, params, id);
+		String jsonString = reqOut.toString();
+		return new JsonObject(jsonString);
 	}
 }
