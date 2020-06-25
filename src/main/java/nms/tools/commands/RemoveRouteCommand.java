@@ -33,13 +33,21 @@ public class RemoveRouteCommand implements Runnable {
 
 	@Override
 	public void run() {
-		wsClient.connect();
-		System.out.println("attempting to remove route...");
-		wsClient.send(makeCommand().toString());
+		boolean success = false;
+		try {
+			success = wsClient.connectBlocking();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (success) {
+			System.out.println("attempting to remove route...");
+			wsClient.send(makeCommand().toString());
+		}
 	}
 
 	private JsonObject makeCommand() {
-		
+
 		String method = RpcCommands.REMOVE_ROUTE.getName();
 		String id = UUID.randomUUID().toString();
 		Map<String, Object> params = new HashMap<String, Object>();

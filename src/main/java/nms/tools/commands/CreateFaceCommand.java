@@ -37,9 +37,17 @@ public class CreateFaceCommand implements Runnable {
 
 	@Override
 	public void run() {
-		wsClient.connect();
-		System.out.println("creating face...");
-		wsClient.send(makeCommand().toString());
+		boolean success = false;
+		try {
+			success = wsClient.connectBlocking();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (success) {
+			System.out.println("creating face...");
+			wsClient.send(makeCommand().toString());
+		}
 	}
 
 	@SuppressWarnings("unused")

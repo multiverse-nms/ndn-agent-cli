@@ -17,7 +17,7 @@ import picocli.CommandLine.Option;
 public class GetFaceCommand implements Runnable {
 
 	private final WebSocketClient wsClient;
-	
+
 	@Option(names = { "--faceid" }, required = true)
 	private int faceId;
 
@@ -27,9 +27,17 @@ public class GetFaceCommand implements Runnable {
 
 	@Override
 	public void run() {
-		wsClient.connect();
-		System.out.println("retrieving face info...");
-		wsClient.send(makeCommand().toString());
+		boolean success = false;
+		try {
+			success = wsClient.connectBlocking();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (success) {
+			System.out.println("retrieving face info...");
+			wsClient.send(makeCommand().toString());
+		}
 	}
 
 	private JsonObject makeCommand() {

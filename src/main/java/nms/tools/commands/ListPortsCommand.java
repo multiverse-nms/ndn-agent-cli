@@ -16,18 +16,26 @@ import picocli.CommandLine.Command;
 public class ListPortsCommand implements Runnable {
 
 	private final WebSocketClient wsClient;
-	
+
 	public ListPortsCommand(WebSocketClient client) {
 		this.wsClient = client;
 	}
 
 	@Override
 	public void run() {
-		wsClient.connect();
-		System.out.println("retrieving list of ports...");
-		wsClient.send(makeCommand().toString());
+		boolean success = false;
+		try {
+			success = wsClient.connectBlocking();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (success) {
+			System.out.println("retrieving list of ports...");
+			wsClient.send(makeCommand().toString());
+		}
 	}
-	
+
 	private JsonObject makeCommand() {
 		String method = RpcCommands.LIST_PORTS.getName();
 		String id = UUID.randomUUID().toString();

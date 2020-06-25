@@ -22,9 +22,17 @@ public class ListFacesCommand implements Runnable {
 
 	@Override
 	public void run() {
-		wsClient.connect();
-		System.out.println("retrieving list of faces...");
-		wsClient.send(makeCommand().toString());
+		boolean success = false;
+		try {
+			success = wsClient.connectBlocking();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (success) {
+			System.out.println("retrieving list of faces...");
+			wsClient.send(makeCommand().toString());
+		}
 	}
 
 	private JsonObject makeCommand() {

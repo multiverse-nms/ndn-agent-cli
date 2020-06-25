@@ -27,9 +27,17 @@ public class DestroyFaceCommand implements Runnable {
 
 	@Override
 	public void run() {
-		wsClient.connect();
-		System.out.println("attempting to destroy face with ID " + faceId + "...");
-		wsClient.send(makeCommand().toString());
+		boolean success = false;
+		try {
+			success = wsClient.connectBlocking();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (success) {
+			System.out.println("attempting to destroy face with ID " + faceId + "...");
+			wsClient.send(makeCommand().toString());
+		}
 	}
 
 	private JsonObject makeCommand() {

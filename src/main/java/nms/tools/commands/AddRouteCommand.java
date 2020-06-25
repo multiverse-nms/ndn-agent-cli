@@ -18,28 +18,36 @@ public class AddRouteCommand implements Runnable {
 
 	private final WebSocketClient wsClient;
 
-	@Option(names = {"--prefix"}, required = true)
-    private String prefix;
-	
-	@Option(names = {"--faceid"}, required = true)
-    private int faceId;
-	
-	@Option(names = {"--cost"}, required = false)
-    private int cost;
-	
-	@Option(names = {"--origin"}, required = false)
-    private int origin;
-	
-	
+	@Option(names = { "--prefix" }, required = true)
+	private String prefix;
+
+	@Option(names = { "--faceid" }, required = true)
+	private int faceId;
+
+	@Option(names = { "--cost" }, required = false)
+	private int cost;
+
+	@Option(names = { "--origin" }, required = false)
+	private int origin;
+
 	public AddRouteCommand(WebSocketClient client) {
 		this.wsClient = client;
 	}
 
 	@Override
 	public void run() {
-		wsClient.connect();
-		System.out.println("adding route...");
-		wsClient.send(makeCommand().toString());
+		boolean success = false;
+		try {
+			success = wsClient.connectBlocking();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		if (success) {
+			System.out.println("adding route...");
+			wsClient.send(makeCommand().toString());
+		}
+
 	}
 
 	private JsonObject makeCommand() {
