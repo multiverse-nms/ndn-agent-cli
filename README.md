@@ -13,21 +13,25 @@ CLI app to interact with the NMS agent
 `mvn compile`
 - To run Maven, telling it to execute the compile goal.
 
-`mvn package`
+`mvn package shade:shade`
 - To compile, run tests and package your code in a JAR file that can be found in the target directory.
 
-- **Note:** for this project to build correctly run the following command `mvn package shade:shade` since we use Maven Shade Plugin to create a jar with its dependency jars into a single jar file
+-  **Note:** to build correctly since we use Maven Shade Plugin to create a jar with its dependency jars into a single jar file
 
 `mvn install`
 - Compile, test, package your code and copy it in the local dependency repository.
  
  #### Run the Agent
  
- To run the cli-app use the following command, where `<target>` is the path to your fat .jar file that was generated during the `mvn package` step:
+ - To run the cli-app: In the command line use the following command, where `<target>` is the path to your fat .jar file that was generated during the `mvn package` step:
  
- `java -jar <target>`
+ `Function nmscli {java -jar  <target> @args }`
 
 **Note:** target folder will contain 2 jar files, `xxx.jar` and `xxx-fat.jar`.
+
+ - To get started use the help option: 
+ 
+ `nmscli -h `
  
  
 
